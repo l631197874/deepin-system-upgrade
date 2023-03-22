@@ -404,6 +404,14 @@ void DBusWorker::MigratePackages()
                      this, SLOT(onAsyncCallFinished(QDBusPendingCallWatcher*)));
 }
 
+void DBusWorker::SetMigrateAppsList(const QStringList apps)
+{
+    QDBusPendingCall pcall = m_appInter->asyncCall("SetMigrateAppsList", apps);
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
+    QObject::connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
+                     this, SLOT(onAsyncCallFinished(QDBusPendingCallWatcher*)));
+}
+
 void DBusWorker::StopUpgrade()
 {
     m_systemupgrade1Inter->call("StopUpgrade");

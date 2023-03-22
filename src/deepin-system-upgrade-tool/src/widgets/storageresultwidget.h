@@ -59,7 +59,7 @@ private:
     DLabel          *m_requirementTitleLabel;
     SimpleLabel     *m_requirementTipLabel;
     DLabel          *m_systemResultTextLabel;
-    DLabel          *m_dataResultTextLabel;
+    DLabel          * m_dataResultTextLabel;
     DLabel          *m_systemStatusLabel;
     DLabel          *m_dataStatusLabel;
     DLabel          *m_cleanupSystemLabel;

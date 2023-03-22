@@ -38,12 +38,13 @@ type BackupTarget struct {
 }
 
 type Config struct {
-	Version    string     `yaml:"version"`
-	Transfer   []Transfer `yaml:"transfer"`
-	Source     []Source   `yaml:"source"`
-	Target     []Target   `yaml:"target"`
-	Debinstall []string   `yaml:"debinstall"`
-	Backupapps bool       `yaml:"backupapps"`
+	Version     string     `yaml:"version"`
+	Transfer    []Transfer `yaml:"transfer"`
+	Source      []Source   `yaml:"source"`
+	Target      []Target   `yaml:"target"`
+	DebInstall  []string   `yaml:"debinstall"`
+	BackupApps  bool       `yaml:"backupapps"`
+	FullMigrate bool       `yaml:"fullmigrate"`
 }
 
 type Transfer struct {
@@ -73,9 +74,6 @@ type ConfigManager struct {
 		GetSource       func() `out:"sources"`
 		GetTarget       func() `out:"target"`
 		GetIsBackupApps func() `out:"backup"`
-	}
-
-	signals *struct {
 	}
 }
 
@@ -108,7 +106,28 @@ func (*ConfigManager) GetIsBackupApps() (bool, *dbus.Error) {
 	if _Conf == nil {
 		return false, nil
 	}
-	return _Conf.Backupapps, nil
+	return _Conf.BackupApps, nil
+}
+
+func (*ConfigManager) GetVersion() string {
+	if _Conf == nil {
+		return ""
+	}
+	return _Conf.Version
+}
+
+func (*ConfigManager) GetTransfer() []Transfer {
+	if _Conf == nil {
+		return nil
+	}
+	return _Conf.Transfer
+}
+
+func GetIsFullMigrate() (bool, error) {
+	if _Conf == nil {
+		return false, nil
+	}
+	return _Conf.FullMigrate, nil
 }
 
 func ExportConfigManager(service *dbusutil.Service) error {
@@ -157,21 +176,7 @@ func GetPackageList() []string {
 	if _Conf == nil {
 		return nil
 	}
-	return _Conf.Debinstall
-}
-
-func (*ConfigManager) GetVersion() string {
-	if _Conf == nil {
-		return ""
-	}
-	return _Conf.Version
-}
-
-func (*ConfigManager) GetTransfer() []Transfer {
-	if _Conf == nil {
-		return nil
-	}
-	return _Conf.Transfer
+	return _Conf.DebInstall
 }
 
 func GetBackupTarget() (BackupTarget, error) {

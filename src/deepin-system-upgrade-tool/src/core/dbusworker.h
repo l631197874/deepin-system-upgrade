@@ -68,6 +68,7 @@ public:
         return m_upgradeStage;
     }
     void MigratePackages();
+    void SetMigrateAppsList(const QStringList apps);
     void StopUpgrade();
 
 private:

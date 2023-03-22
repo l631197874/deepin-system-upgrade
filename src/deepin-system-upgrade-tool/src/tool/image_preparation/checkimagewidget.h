@@ -47,5 +47,4 @@ private:
 
     void initUI();
     void initConnections();
-
 };
