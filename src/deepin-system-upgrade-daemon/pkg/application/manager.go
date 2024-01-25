@@ -697,6 +697,11 @@ func initSourceList(suffix string, extractPath string, root string) error {
 			f.WriteString(source)
 			continue
 		}
+		if strings.HasPrefix(line, "deb ") {
+			source := strings.Trim(line, "\"") + "\n"
+			f.WriteString(source)
+			continue
+		}
 		if strings.Contains(line, "apt_source_deb_src") {
 			source := strings.Trim(strings.Split(line, "= ")[1], "\"")
 			f.WriteString(source)
